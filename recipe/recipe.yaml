@@ -1,0 +1,51 @@
+schema_version: 1
+
+context:
+  name: de-dashboarddeutschland
+  version: 0.1.0
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/de-DashboardDeutschland-${{ version }}.tar.gz
+  sha256: ebe80eb15c0626abe75eb65e14b33bb78015c242bc11fac9326f524cd821fe86
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - poetry
+  run:
+    - python >=${{ python_min }}
+    - python-dateutil
+    - urllib3 >=1.25.3
+
+tests:
+  - python:
+      imports:
+        - deutschland.DashboardDeutschland
+      python_version: ${{ python_min }}.*
+  - requirements:
+      run:
+        - pip
+        - python ${{ python_min }}.*
+    script:
+      - pip check
+
+about:
+  summary: Dashboard Deutschland API
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+  homepage: https://github.com/bundesAPI/dashboard-deutschland-api
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
